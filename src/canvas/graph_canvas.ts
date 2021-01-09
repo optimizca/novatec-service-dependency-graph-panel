@@ -548,7 +548,7 @@ export default class CanvasDrawer {
 
         if (requestCount >= 0) {
             const decimals = requestCount >= 1000 ? 1 : 0;
-            lines.push('Requests: ' + humanFormat(requestCount, { decimals }));
+            lines.push('Alerts: ' + humanFormat(requestCount, { decimals }));
         }
         if (errorCount >= 0) {
             const decimals = errorCount >= 1000 ? 1 : 0;
