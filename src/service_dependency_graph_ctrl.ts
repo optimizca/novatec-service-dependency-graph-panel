@@ -16,6 +16,11 @@ import { DataMapping, IGraph, IGraphNode, IGraphEdge, CyData, PanelSettings, Cur
 
 import dummyData from "./dummy_graph";
 
+import fetch from 'node-fetch';
+
+import { DataSourceSrv, getBackendSrv } from '@grafana/runtime'
+import { DataSourceApi } from '@grafana/data';
+
 // Register cytoscape extensions
 cyCanvas(cytoscape);
 cytoscape.use(cola);
@@ -313,37 +318,73 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 		this.cy.on('unselect', 'node', (event) => that.onSelectionChange(event));
 	}
 
-	onSelectionChange(event: EventObject) {
+	async onSelectionChange(event: EventObject) {
 		const selection = this.cy.$(':selected');
-
 		if (selection.length === 1) {
 			this.showStatistics = true;
-			this.updateStatisticTable();
+			await this.updateStatisticTable();
 		} else {
+			
 			this.showStatistics = false;
 		}
 		this.$scope.$apply();
 	}
 
-	updateStatisticTable() {
+	async updateStatisticTable() {
 		const selection = this.cy.$(':selected');
-
 		if (selection.length === 1) {
+
+			let test = await this.datasourceSrv.get("dummy_plugin");
+			console.log(await test.testDatasource())
+			
+			const sending: TableContent[] = [];
+			
 			const currentNode: NodeSingular = selection[0];
 			this.selectionId = currentNode.id();
+			
+			let forNum = Math.floor((Math.random() * 5) + 1)
+
+			for(let i = 0; i < forNum; i++){
+				let num = Math.floor((Math.random() * 100) + 1)
+				let response = await fetch('https://jsonplaceholder.typicode.com/todos/' + num)
+				let json = await response.json();
+	
+				const sendingObject: TableContent = {
+					name: "-",
+					responseTime: "-",
+					rate: "-",
+					error: "-"
+				};
+	
+				sendingObject.name = json.title;
+				sendingObject.responseTime = json.userId.toString();
+				sendingObject.rate = json.id.toString();
+				sendingObject.error = json.completed.toString();
+	
+	
+				sending.push(sendingObject);
+			}
+
+			this.sending = sending
+			await this.generateDrillDownLink();
+			/*
 			this.currentType = currentNode.data('type');
+			
 			const receiving: TableContent[] = [];
 			const sending: TableContent[] = [];
 			const edges: EdgeCollection = selection.connectedEdges();
 
+			
 			const metrics: IGraphMetrics = selection.nodes()[0].data('metrics');
 			const requestCount = _.defaultTo(metrics.rate, -1);
 			const errorCount = _.defaultTo(metrics.error_rate, -1);
 			const duration = _.defaultTo(metrics.response_time, -1);
 			const threshold = _.defaultTo(metrics.threshold, -1);
 
+			// selectionStatistics is for the upper portion
+			
 			this.selectionStatistics = {};
-
+			
 			if (requestCount >= 0) {
 				this.selectionStatistics.requests = Math.floor(requestCount);
 			}
@@ -373,35 +414,39 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 				}
 
 				const sendingObject: TableContent = {
-					name: node.id(),
+					name: "-",
 					responseTime: "-",
 					rate: "-",
 					error: "-"
 				};
-
+				
 				const edgeMetrics: IGraphMetrics = actualEdge.data('metrics');
 				const { response_time, rate, error_rate } = edgeMetrics;
-
+				
 				if (rate != undefined) {
 					sendingObject.rate = Math.floor(rate).toString();
 				}
 				if (response_time != undefined) {
+					console.log(response_time)
 					sendingObject.responseTime = Math.floor(response_time) + " ms";
 				}
 				if (error_rate != undefined && rate != undefined) {
 					sendingObject.error = Math.floor(error_rate / (rate / 100)) + "%";
 				}
-
+				
 				if (sendingCheck) {
 					sending.push(sendingObject);
 				} else {
 					receiving.push(sendingObject);
 				}
 			}
+		
 			this.receiving = receiving;
 			this.sending = sending;
-
+			
+			
 			this.generateDrillDownLink();
+			*/
 		}
 	}
 
@@ -564,9 +609,9 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 		return this.panel.settings;
 	}
 
-	generateDrillDownLink() {
-		const { drillDownLink } = this.getSettings();
-		const link = drillDownLink.replace('{}', this.selectionId);
-		this.resolvedDrillDownLink = this.templateSrv.replace(link);
+	async generateDrillDownLink() {
+		const { drillDownLink } = await this.getSettings();
+		const link = await drillDownLink.replace('{}', this.selectionId);
+		this.resolvedDrillDownLink = await this.templateSrv.replace(link);
 	}
 }
