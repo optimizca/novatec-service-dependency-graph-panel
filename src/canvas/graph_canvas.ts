@@ -514,7 +514,7 @@ export default class CanvasDrawer {
     }
 
     _drawServiceIcon(ctx: CanvasRenderingContext2D, node: cytoscape.NodeSingular) {
-        const nodeId: string = node.id();
+        /*const nodeId: string = node.id();
 
         const iconMappings = this.controller.panel.settings.serviceIcons;
 
@@ -525,8 +525,9 @@ export default class CanvasDrawer {
                 return false;
             }
         });
-
+        
         if (mapping) {
+            console.log(mapping)
             const image = this._getAsset(mapping.filename, 'service_icons/' + mapping.filename + '.png');
             if (image != null) {
                 const cX = node.position().x;
@@ -535,7 +536,31 @@ export default class CanvasDrawer {
 
                 ctx.drawImage(image, cX - iconSize / 2, cY - iconSize / 2, iconSize, iconSize);
             }
+        }*/
+        // Start of new code
+        const pos = node.position();
+        const cX = pos.x;
+        const cY = pos.y;
+        const size = 12;
+
+        ctx.beginPath();
+        ctx.arc(cX, cY, 12, 0, 2 * Math.PI, false);
+        ctx.fillStyle = 'white';
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(cX, cY, 11.5, 0, 2 * Math.PI, false);
+        ctx.fillStyle = this.colors.background;
+        ctx.fill();
+
+        const nodeType = node.data('external_type');
+
+        const image = this._getImageAsset(nodeType);
+        if (image != null) {
+            ctx.drawImage(image, cX - size / 2, cY - size / 2, size, size);
         }
+
+        // End of new code
     }
 
     _drawNodeStatistics(ctx: CanvasRenderingContext2D, node: cytoscape.NodeSingular) {
@@ -611,6 +636,37 @@ export default class CanvasDrawer {
     }
 
     _drawExternalService(ctx: CanvasRenderingContext2D, node: cytoscape.NodeSingular) {
+        // Start of new code
+        const metrics: IGraphMetrics = node.data('metrics');
+
+        const requestCount = _.defaultTo(metrics.rate, -1);
+        const errorCount = _.defaultTo(metrics.error_rate, 0);
+        const responseTime = _.defaultTo(metrics.response_time, -1);
+        const threshold = _.defaultTo(metrics.threshold, -1);
+
+        var unknownPct;
+        var errorPct;
+        var healthyPct;
+
+        if (requestCount < 0) {
+            healthyPct = 0;
+            errorPct = 0;
+            unknownPct = 1;
+        } else {
+            if (errorCount <= 0) {
+                errorPct = 0.0;
+            } else {
+                errorPct = 1.0 / requestCount * errorCount;
+            }
+            healthyPct = 1.0 - errorPct;
+            unknownPct = 0;
+        }
+
+        // drawing the donut
+        this._drawDonut(ctx, node, 15, 5, 0.5, [errorPct, unknownPct, healthyPct])
+
+        // End of new code
+
         const pos = node.position();
         const cX = pos.x;
         const cY = pos.y;

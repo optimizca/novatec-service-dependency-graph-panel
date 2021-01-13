@@ -40091,29 +40091,47 @@ var CanvasDrawer = /*#__PURE__*/function () {
   }, {
     key: "_drawServiceIcon",
     value: function _drawServiceIcon(ctx, node) {
-      var nodeId = node.id();
-      var iconMappings = this.controller.panel.settings.serviceIcons;
-
-      var mapping = lodash__WEBPACK_IMPORTED_MODULE_0___default.a.find(iconMappings, function (_ref) {
-        var pattern = _ref.pattern;
-
-        try {
-          return new RegExp(pattern).test(nodeId);
-        } catch (error) {
-          return false;
-        }
+      /*const nodeId: string = node.id();
+        const iconMappings = this.controller.panel.settings.serviceIcons;
+        const mapping = _.find(iconMappings, ({ pattern }) => {
+          try {
+              return new RegExp(pattern).test(nodeId);
+          } catch (error) {
+              return false;
+          }
       });
-
+      
       if (mapping) {
-        var image = this._getAsset(mapping.filename, 'service_icons/' + mapping.filename + '.png');
+          console.log(mapping)
+          const image = this._getAsset(mapping.filename, 'service_icons/' + mapping.filename + '.png');
+          if (image != null) {
+              const cX = node.position().x;
+              const cY = node.position().y;
+              const iconSize = 16;
+                ctx.drawImage(image, cX - iconSize / 2, cY - iconSize / 2, iconSize, iconSize);
+          }
+      }*/
+      // Start of new code
+      var pos = node.position();
+      var cX = pos.x;
+      var cY = pos.y;
+      var size = 12;
+      ctx.beginPath();
+      ctx.arc(cX, cY, 12, 0, 2 * Math.PI, false);
+      ctx.fillStyle = 'white';
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(cX, cY, 11.5, 0, 2 * Math.PI, false);
+      ctx.fillStyle = this.colors.background;
+      ctx.fill();
+      var nodeType = node.data('external_type');
 
-        if (image != null) {
-          var cX = node.position().x;
-          var cY = node.position().y;
-          var iconSize = 16;
-          ctx.drawImage(image, cX - iconSize / 2, cY - iconSize / 2, iconSize, iconSize);
-        }
-      }
+      var image = this._getImageAsset(nodeType);
+
+      if (image != null) {
+        ctx.drawImage(image, cX - size / 2, cY - size / 2, size, size);
+      } // End of new code
+
     }
   }, {
     key: "_drawNodeStatistics",
@@ -40201,6 +40219,40 @@ var CanvasDrawer = /*#__PURE__*/function () {
   }, {
     key: "_drawExternalService",
     value: function _drawExternalService(ctx, node) {
+      // Start of new code
+      var metrics = node.data('metrics');
+
+      var requestCount = lodash__WEBPACK_IMPORTED_MODULE_0___default.a.defaultTo(metrics.rate, -1);
+
+      var errorCount = lodash__WEBPACK_IMPORTED_MODULE_0___default.a.defaultTo(metrics.error_rate, 0);
+
+      var responseTime = lodash__WEBPACK_IMPORTED_MODULE_0___default.a.defaultTo(metrics.response_time, -1);
+
+      var threshold = lodash__WEBPACK_IMPORTED_MODULE_0___default.a.defaultTo(metrics.threshold, -1);
+
+      var unknownPct;
+      var errorPct;
+      var healthyPct;
+
+      if (requestCount < 0) {
+        healthyPct = 0;
+        errorPct = 0;
+        unknownPct = 1;
+      } else {
+        if (errorCount <= 0) {
+          errorPct = 0.0;
+        } else {
+          errorPct = 1.0 / requestCount * errorCount;
+        }
+
+        healthyPct = 1.0 - errorPct;
+        unknownPct = 0;
+      } // drawing the donut
+
+
+      this._drawDonut(ctx, node, 15, 5, 0.5, [errorPct, unknownPct, healthyPct]); // End of new code
+
+
       var pos = node.position();
       var cX = pos.x;
       var cY = pos.y;
@@ -41945,7 +41997,6 @@ var ServiceDependencyGraphCtrl = /*#__PURE__*/function (_MetricsPanelCtrl) {
 
       if (this.isDataAvailable()) {
         var graph = this.graphGenerator.generateGraph(this.currentData.graph);
-        console.log(graph);
 
         this._updateGraph(graph);
 
