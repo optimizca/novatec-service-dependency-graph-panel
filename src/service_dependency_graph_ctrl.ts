@@ -393,86 +393,6 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 
 			
 			await this.generateDrillDownLink();
-			/*
-			this.currentType = currentNode.data('type');
-			
-			const receiving: TableContent[] = [];
-			const sending: TableContent[] = [];
-			const edges: EdgeCollection = selection.connectedEdges();
-
-			
-			const metrics: IGraphMetrics = selection.nodes()[0].data('metrics');
-			const requestCount = _.defaultTo(metrics.rate, -1);
-			const errorCount = _.defaultTo(metrics.error_rate, -1);
-			const duration = _.defaultTo(metrics.response_time, -1);
-			const threshold = _.defaultTo(metrics.threshold, -1);
-
-			// selectionStatistics is for the upper portion
-			
-			this.selectionStatistics = {};
-			
-			if (requestCount >= 0) {
-				this.selectionStatistics.requests = Math.floor(requestCount);
-			}
-			if (errorCount >= 0) {
-				this.selectionStatistics.errors = Math.floor(errorCount);
-			}
-			if (duration >= 0) {
-				this.selectionStatistics.responseTime = Math.floor(duration);
-
-				if (threshold >= 0) {
-					this.selectionStatistics.threshold = Math.floor(threshold);
-					this.selectionStatistics.thresholdViolation = duration > threshold;
-				}
-			}
-
-			for (let i = 0; i < edges.length; i++) {
-
-				const actualEdge: EdgeSingular = edges[i];
-				const sendingCheck: boolean = actualEdge.source().id() === this.selectionId;
-				let node: NodeSingular;
-
-				if (sendingCheck) {
-					node = actualEdge.target();
-				}
-				else {
-					node = actualEdge.source()
-				}
-
-				const sendingObject: TableContent = {
-					name: "-",
-					responseTime: "-",
-					rate: "-",
-					error: "-"
-				};
-				
-				const edgeMetrics: IGraphMetrics = actualEdge.data('metrics');
-				const { response_time, rate, error_rate } = edgeMetrics;
-				
-				if (rate != undefined) {
-					sendingObject.rate = Math.floor(rate).toString();
-				}
-				if (response_time != undefined) {
-					console.log(response_time)
-					sendingObject.responseTime = Math.floor(response_time) + " ms";
-				}
-				if (error_rate != undefined && rate != undefined) {
-					sendingObject.error = Math.floor(error_rate / (rate / 100)) + "%";
-				}
-				
-				if (sendingCheck) {
-					sending.push(sendingObject);
-				} else {
-					receiving.push(sendingObject);
-				}
-			}
-		
-			this.receiving = receiving;
-			this.sending = sending;
-			
-			
-			this.generateDrillDownLink();
-			*/
 		}
 	}
 
@@ -493,7 +413,6 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 
 		if (this.isDataAvailable()) {
 			const graph: IGraph = this.graphGenerator.generateGraph((<CurrentData>this.currentData).graph);
-			console.log(graph);
 			this._updateGraph(graph);
 			this.updateStatisticTable();
 		}
@@ -582,7 +501,6 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 
 		if (this.hasAggregationVariable() && this.validQueryTypes) {
 			const graphData = this.preProcessor.processData(data);
-
 			console.groupCollapsed('Processed received data');
 			console.log('raw data: ', data);
 			console.log('graph data: ', graphData);
@@ -617,7 +535,6 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 		}
 
 		const { externalIcons } = this.getSettings();
-
 		const icon = find(externalIcons, icon => icon.name.toLowerCase() === type.toLowerCase());
 
 		if (icon !== undefined) {
