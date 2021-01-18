@@ -12,11 +12,11 @@ import cola from 'cytoscape-cola';
 import cyCanvas from 'cytoscape-canvas';
 
 import layoutOptions from './layout_options';
-import { DataMapping, IGraph, IGraphNode, IGraphEdge, CyData, PanelSettings, CurrentData, QueryResponse, TableContent, IGraphMetrics, ISelectionStatistics } from './types';
+import { DataMapping, IGraph, IGraphNode, IGraphEdge, CyData, PanelSettings, CurrentData, QueryResponse, TableContent,AlertTableContent,SummaryTableContent,ChangeTableContent, IGraphMetrics, ISelectionStatistics } from './types';
 
 import dummyData from "./dummy_graph";
 
-import fetch from 'node-fetch';
+
 
 import { DataSourceSrv, getBackendSrv } from '@grafana/runtime'
 import { DataSourceApi } from '@grafana/data';
@@ -81,7 +81,6 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 				responseTimeOutgoingColumn: "response-time-out",
 				requestRateOutgoingColumn: "request-rate-out",
 				errorRateOutgoingColumn: "error-rate-out",
-
 				extOrigin: 'external_origin',
 				extTarget: 'external_target',
 				type: 'type',
@@ -89,6 +88,7 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 				baselineRtUpper: 'threshold'
 			},
 			drillDownLink: "",
+			dataSourceName: "Enter datasource Name",
 		}
 	};
 
@@ -114,7 +114,10 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 
 	receiving: TableContent[];
 
-	sending: TableContent[];
+	alerts: AlertTableContent[];
+	summary: SummaryTableContent[];
+	change: ChangeTableContent[];
+
 
 	resolvedDrillDownLink: string;
 
@@ -334,38 +337,61 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 		const selection = this.cy.$(':selected');
 		if (selection.length === 1) {
 
-			let test = await this.datasourceSrv.get("dummy_plugin");
-			console.log(await test.testDatasource())
 			
-			const sending: TableContent[] = [];
+
+			
+			
+			const alertsTable: AlertTableContent[] = [];
+			const summaryTable: SummaryTableContent[] = [];
+			const changeTable: ChangeTableContent[] = [];
+			//const alertsTable: ChangeTableContent[] = [];
+			
 			
 			const currentNode: NodeSingular = selection[0];
 			this.selectionId = currentNode.id();
 			
 			let forNum = Math.floor((Math.random() * 5) + 1)
+			//get summary
+			let dataSource = await this.datasourceSrv.get(this.panel.settings.dataSourceName);
+			let dataSourceData=await dataSource.snowConnection.getTopologyCISummary(this.selectionId);
+			console.log(dataSourceData);
+				
+				//let response = await fetch('https://jsonplaceholder.typicode.com/todos/' + num)
+				
+				
+				summaryTable.push({name:"Class",value:dataSourceData.classType});
+				summaryTable.push({name:"Environment",value:dataSourceData.environment});
+				summaryTable.push({name:"Support Group",value:dataSourceData.support_group});
+				summaryTable.push({name:"In Maintinance",value:dataSourceData.maintenance_schedule});
+	
+				
+			
+			this.summary = summaryTable
 
+
+
+			//get alerts
 			for(let i = 0; i < forNum; i++){
 				let num = Math.floor((Math.random() * 100) + 1)
-				let response = await fetch('https://jsonplaceholder.typicode.com/todos/' + num)
-				let json = await response.json();
-	
-				const sendingObject: TableContent = {
-					name: "-",
-					responseTime: "-",
-					rate: "-",
-					error: "-"
+				//let response = await fetch('https://jsonplaceholder.typicode.com/todos/' + num)
+				const alertsObject: AlertTableContent = {
+					time : "-",
+					id: "-",
+					summary: "-",
+					severity: "Warning"
 				};
-	
-				sendingObject.name = json.title;
-				sendingObject.responseTime = json.userId.toString();
-				sendingObject.rate = json.id.toString();
-				sendingObject.error = json.completed.toString();
-	
-	
-				sending.push(sendingObject);
+				alertsObject.time = "2020-12-23 9:30 AM";
+				alertsObject.id = "Alert10002";
+				alertsObject.summary = "AppD";
+				alertsObject.severity = "Warning";
+				alertsTable.push(alertsObject);
 			}
+			this.alerts = alertsTable
 
-			this.sending = sending
+			changeTable.push({id:"CHG00001",summary:"MySQL Database Change"});
+			this.change=changeTable;
+
+			
 			await this.generateDrillDownLink();
 		}
 	}
@@ -526,6 +552,7 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 		return this.panel.settings;
 	}
 
+	
 	async generateDrillDownLink() {
 		const { drillDownLink } = await this.getSettings();
 		const link = await drillDownLink.replace('{}', this.selectionId);
