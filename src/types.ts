@@ -10,6 +10,7 @@ export interface PanelSettings {
     showDummyData: boolean;
     drillDownLink: string;
     showBaselines: boolean;
+    dataSourceName: string;
 };
 
 export interface DataMapping {
@@ -23,6 +24,7 @@ export interface DataMapping {
     requestRateOutgoingColumn: string;
     errorRateOutgoingColumn: string;
 
+    
     extOrigin: string;
     extTarget: string;
     type: string;
@@ -150,6 +152,24 @@ export interface TableContent {
     rate: string;
     error: string;
 };
+
+export interface AlertTableContent {
+    time: string;
+    id: string;
+    summary: string;
+    severity: string;
+};
+
+export interface SummaryTableContent {
+    name: string;
+    value: string;
+};
+
+export interface ChangeTableContent {
+    id: string;
+    summary: string;
+};
+
 
 export interface ISelectionStatistics {
     requests?: number;
