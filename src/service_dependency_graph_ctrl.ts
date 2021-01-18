@@ -338,8 +338,7 @@ export class ServiceDependencyGraphCtrl extends MetricsPanelCtrl {
 		if (selection.length === 1) {
 
 			
-			//console.log(await test.testDatasource())
-			console.log("print4 data source name");
+
 			
 			
 			const alertsTable: AlertTableContent[] = [];
