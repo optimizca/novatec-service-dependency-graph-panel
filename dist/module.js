@@ -41904,7 +41904,7 @@ var ServiceDependencyGraphCtrl = /*#__PURE__*/function (_MetricsPanelCtrl) {
                   value: dataSourceData.support_group
                 });
                 summaryTable.push({
-                  name: "In Maintinance",
+                  name: "In Maintenance",
                   value: dataSourceData.maintenance_schedule
                 });
                 this.summary = summaryTable; //get alerts
