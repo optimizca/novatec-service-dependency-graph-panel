@@ -44,7 +44,9 @@ export class OptionsCtrl {
 	}
 
 	getExternalIconOptions() {
-		return ['default', 'message', 'database', 'http', 'web', 'balancer', 'ldap', 'mainframe', 'smtp', 'ftp'];
+		//return ['default', 'message', 'database', 'http', 'web', 'balancer', 'ldap', 'mainframe', 'smtp', 'ftp'];
+		return ["java", "balancer","database","http","ftp","ldap","mainframe","message","smtp","web","default","mysql","database1","appd_node_class","appd_tier_class","application_mapped_class","aws_logo","cluster_class","database_class","docker_container_class","firewall_class","internet_class","ip_class","java_red_node_class","kubernetes_logo","kubernetes_pod","linux_server_class","router_class","mysql3"]
+
 	}
 
 	addServiceMapping() {
