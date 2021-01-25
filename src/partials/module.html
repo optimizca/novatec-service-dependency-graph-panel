@@ -19,7 +19,7 @@
             <div class="header--selection">{{ctrl.selectionId}}
             </div>
 
-            <div class="secondHeader--selection">Drilldown
+            <div class="secondHeader--selection">
                 <a target="_blank" ng-href="{{ctrl.resolvedDrillDownLink}}"
                     ng-show="ctrl.resolvedDrillDownLink && ctrl.resolvedDrillDownLink.length > 0">
                     <i class="fa fa-paper-plane-o"></i>
@@ -27,16 +27,16 @@
             </div>
             
 
-            <div class="secondHeader--selection">Summary</div>
+            
             <div class="no-data--selection" ng-show="ctrl.summary.length == 0">No Summary </div>
-            <table class="table--selection" ng-show="ctrl.summary.length > 0">
+            <table style="border:1px solid gray;" class="table--selection" ng-show="ctrl.summary.length > 0" >
                 <tr class="table--selection--head">
-                    <th class="table--th--selectionSmall">Name</th>
-                    <th class="table--th--selectionSmall">Value</th>
+                    <th style="border:1px solid gray;width:30%">CI Attribute</th>
+                    <th style="border:1px solid gray;width:70%">Value</th>
                 </tr>
                 <tr ng-repeat="node in ctrl.summary">
-                    <td class="table--td--selection">{{node.name}}</td>
-                    <td class="table--td--selection">{{node.value}}</td>
+                    <td style="border:1px solid gray;" class="table--td--selection">{{node.name}}</td>
+                    <td style="border:1px solid gray;" class="table--td--selection">{{node.value}}</td>
                     
                 </tr>
             </table>
