@@ -695,11 +695,16 @@ export default class CanvasDrawer {
         let label: string = node.id();
         const labelPadding = 1;
 
+        // Commented out to remove label truncating
+        // RJS
+        // Feb 1 2021
+        /*   
         if (this.selectionNeighborhood.empty() || !this.selectionNeighborhood.has(node)) {
             if (label.length > 20) {
-                label = label.substr(0, 7) + '...' + label.slice(-7);
+                //label = label.substr(0, 7) + '...' + label.slice(-7);
             }
         }
+        */
 
         ctx.font = '6px Arial';
 
