@@ -53,6 +53,8 @@
             <h5 class="section-heading">Data Mapping</h5>
 
             <div class="gf-form-inline">
+                <!--Removed on Feb 2 2021 by RJS-->
+                <!--
                 <div class="gf-form">
                     <label class="gf-form-label width-16">Response Time Column</label>
                     <input type="text" class="input-small gf-form-input width-12"
@@ -61,6 +63,7 @@
                         bs-typeahead="editor.getColumnNames" data-min-length=0 data-items=100 ng-change="ctrl.render()"
                         ng-model-onblur />
                 </div>
+                -->
                 <div class="gf-form">
                     <label class="gf-form-label width-16">Request Rate Column</label>
                     <input type="text" class="input-small gf-form-input width-12"
@@ -69,6 +72,8 @@
                         bs-typeahead="editor.getColumnNames" data-min-length=0 data-items=100 ng-change="ctrl.render()"
                         ng-model-onblur />
                 </div>
+                <!--Removed on Feb 2 2021 by RJS-->
+                <!--
                 <div class="gf-form">
                     <label class="gf-form-label width-16">Error Rate Column</label>
                     <input type="text" class="input-small gf-form-input width-12"
@@ -76,9 +81,12 @@
                         ng-model="ctrl.panel.settings.dataMapping.errorRateColumn" bs-typeahead="editor.getColumnNames"
                         data-min-length=0 data-items=100 ng-change="ctrl.render()" ng-model-onblur />
                 </div>
+                -->
             </div>
-
+                
             <div class="gf-form-inline">
+                <!--Removed on Feb 2 2021 by RJS-->
+                <!--
                 <div class="gf-form">
                     <label class="gf-form-label width-16">Response Time Column (Outgoing)</label>
                     <input type="text" class="input-small gf-form-input width-12"
@@ -87,6 +95,7 @@
                         bs-typeahead="editor.getColumnNames" data-min-length=0 data-items=100 ng-change="ctrl.render()"
                         ng-model-onblur />
                 </div>
+                -->
                 <div class="gf-form">
                     <label class="gf-form-label width-16">Request Rate Column (Outgoing)</label>
                     <input type="text" class="input-small gf-form-input width-12"
@@ -95,6 +104,8 @@
                         bs-typeahead="editor.getColumnNames" data-min-length=0 data-items=100 ng-change="ctrl.render()"
                         ng-model-onblur />
                 </div>
+            <!--Removed on Feb 2 2021 by RJS-->
+            <!--
                 <div class="gf-form">
                     <label class="gf-form-label width-16">Error Rate Column (Outgoing)</label>
                     <input type="text" class="input-small gf-form-input width-12"
@@ -103,6 +114,7 @@
                         bs-typeahead="editor.getColumnNames" data-min-length=0 data-items=100 ng-change="ctrl.render()"
                         ng-model-onblur />
                 </div>
+                
             </div>
 
             <div class="gf-form-inline">
@@ -115,6 +127,7 @@
                         ng-model-onblur />
                 </div>
             </div>
+            -->
         </div>
 
 
@@ -186,9 +199,10 @@
                 </span>
             </div>
         </div>
-
+        <!--Removed on Feb 2 2021 by RJS-->
+        <!--
         <div class="section gf-form-group">
-            <h5 class="section-heading">Service Icon Mapping</h5>
+            <h5 class="section-heading">CI Class Icon Mapping</h5>
 
             <div class="gf-form-inline">
                 <div class="gf-form">
@@ -216,9 +230,9 @@
 
             <button class="btn navbar-button navbar-button--primary" ng-click="editor.addServiceMapping()">Add Service Icon Mapping</button>
         </div>
-
+        -->
         <div class="section gf-form-group">
-            <h5 class="section-heading">External Service Icon Mapping</h5>
+            <h5 class="section-heading">CI Class External Icon Mapping</h5>
 
             <div class="gf-form-inline">
                 <div class="gf-form">
