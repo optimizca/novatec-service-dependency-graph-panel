@@ -41,9 +41,11 @@
   position: absolute;
   flex-basis: 30rem;
   padding-left: 0.5%;
-  height: 50% !important;
-  width: 35% !important;
+  height: 230px !important;
+  width: 375px !important;
   right: 0;
+  z-index: 999;
+  backdrop-filter: blur(4px);
 }
 
 .header--selection {
