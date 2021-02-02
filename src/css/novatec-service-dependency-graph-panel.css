@@ -27,7 +27,7 @@
 .zoom-button-container {
   position: absolute;
   top: 0;
-  right: 1rem;
+  left: 1rem;
   z-index: 99;
 }
 
@@ -35,12 +35,15 @@
   flex-basis: 0;
   transition: flex-basis 250ms ease-in-out;
   overflow-y: scroll;
-  
 }
 
 .statistics.show {
+  position: absolute;
   flex-basis: 30rem;
   padding-left: 0.5%;
+  height: 50% !important;
+  width: 30% !important;
+  right: 0;
 }
 
 .header--selection {

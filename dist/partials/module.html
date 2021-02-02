@@ -1,5 +1,4 @@
 <div class="service-dependency-graph-panel" ng-style="{height: ctrl.height}">
-    {{ctrl.height}}
     <div class="graph-container" ng-show="!ctrl.getError()">
         <div class="service-dependency-graph">
             <div class="canvas-container"></div>
@@ -12,24 +11,23 @@
                 <button class="btn navbar-button" ng-click="ctrl.zoom(-1)"><i class="fa fa-minus"></i></button>
             </div>
         </div>
+        
         <div ng-class="{statistics: true, 'show': ctrl.showStatistics}">
-            <div class="header--selection">{{ctrl.selectionId}}
-            </div>
+            <div class="header--selection">{{ctrl.selectionId}}</div>
             <div class="secondHeader--selection">
-                <a target="_blank" ng-href="{{ctrl.resolvedDrillDownLink}}"
-                    ng-show="ctrl.resolvedDrillDownLink && ctrl.resolvedDrillDownLink.length > 0">
+                <a target="_blank" ng-href="{{ctrl.resolvedDrillDownLink}}" ng-show="ctrl.resolvedDrillDownLink && ctrl.resolvedDrillDownLink.length > 0">
                     <i class="fa fa-paper-plane-o"></i>
                 </a>
             </div>
             <div class="no-data--selection" ng-show="ctrl.summary.length == 0">No Summary </div>
-            <table style="border:1px solid lightblue;" class="table--selection" ng-show="ctrl.summary.length > 0" >
+            <table style="border:2px solid rgb(40,107,199);" class="table--selection" ng-show="ctrl.summary.length > 0" >
                 <tr class="table--selection--head">
-                    <th style="border:1px solid lightblue;width:30%">CI Attribute</th>
-                    <th style="border:1px solid lightblue;width:70%">Value</th>
+                    <th style="border:2px solid rgb(40,107,199);width:30%">CI Attribute</th>
+                    <th style="border:2px solid rgb(40,107,199);width:70%">Value</th>
                 </tr>
                 <tr ng-repeat="node in ctrl.summary">
-                    <td style="border:1px solid lightblue;" class="table--td--selection">{{node.name}}</td>
-                    <td style="border:1px solid lightblue;" class="table--td--selection">{{node.value}}</td>
+                    <td style="border:2px solid rgb(40,107,199);" class="table--td--selection">{{node.name}}</td>
+                    <td style="border:2px solid rgb(40,107,199);" class="table--td--selection">{{node.value}}</td>
                 </tr>
             </table>
         </div>
