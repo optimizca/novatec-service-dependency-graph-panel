@@ -491,7 +491,9 @@ export default class CanvasDrawer {
             }
 
             // drawing the donut
-            this._drawDonut(ctx, node, 15, 5, 0.5, [errorPct, unknownPct, healthyPct])
+            // Changed from this._drawDonut(ctx, node, 25, 7, 0.5, [errorPct, unknownPct, healthyPct])
+            // Makes donut larger
+            this._drawDonut(ctx, node, 25, 7, 0.5, [errorPct, unknownPct, healthyPct])
 
             // drawing the baseline status
             const showBaselines = this.controller.getSettings().showBaselines;
@@ -541,12 +543,15 @@ export default class CanvasDrawer {
         const pos = node.position();
         const cX = pos.x;
         const cY = pos.y;
-        const size = 12;
+        //Changed from const size = 20;
+        // Makes font larger
+        const size = 20;
 
         ctx.beginPath();
         ctx.arc(cX, cY, 12, 0, 2 * Math.PI, false);
         ctx.fillStyle = 'white';
-        ctx.fill();
+        // Commented out to remove white line obstructing icon
+        //ctx.fill();
 
         ctx.beginPath();
         ctx.arc(cX, cY, 11.5, 0, 2 * Math.PI, false);
@@ -586,10 +591,12 @@ export default class CanvasDrawer {
 
         const pos = node.position();
         const fontSize = 6;
-        const cX = pos.x + this.donutRadius * 1.25;
+        // Increased donut radius from 1.25 to 1.75
+        const cX = pos.x + this.donutRadius * 1.75;
         const cY = pos.y + fontSize / 2 - (fontSize / 2) * (lines.length - 1);
 
-        ctx.font = '6px Arial';
+        // Increased font size from 6px
+        ctx.font = '8px Arial';
         ctx.fillStyle = this.colors.default;
         for (let i = 0; i < lines.length; i++) {
             ctx.fillText(lines[i], cX, cY + i * fontSize);
@@ -663,19 +670,21 @@ export default class CanvasDrawer {
         }
 
         // drawing the donut
-        this._drawDonut(ctx, node, 15, 5, 0.5, [errorPct, unknownPct, healthyPct])
+        // Changed from this._drawDonut(ctx, node, 15, 5, 0.5, [errorPct, unknownPct, healthyPct])
+        this._drawDonut(ctx, node, 25, 7, 0.5, [errorPct, unknownPct, healthyPct])
 
         // End of new code
 
         const pos = node.position();
         const cX = pos.x;
         const cY = pos.y;
-        const size = 12;
+        // Increased size from 12
+        const size = 20;
 
         ctx.beginPath();
         ctx.arc(cX, cY, 12, 0, 2 * Math.PI, false);
         ctx.fillStyle = 'white';
-        ctx.fill();
+        //ctx.fill();
 
         ctx.beginPath();
         ctx.arc(cX, cY, 11.5, 0, 2 * Math.PI, false);
@@ -706,7 +715,7 @@ export default class CanvasDrawer {
         }
         */
 
-        ctx.font = '6px Arial';
+        ctx.font = '10px Arial';
 
         const labelWidth = ctx.measureText(label).width;
         const xPos = pos.x - labelWidth / 2;

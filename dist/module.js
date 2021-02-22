@@ -40029,9 +40029,11 @@ var CanvasDrawer = /*#__PURE__*/function () {
           healthyPct = 1.0 - errorPct;
           unknownPct = 0;
         } // drawing the donut
+        // Changed from this._drawDonut(ctx, node, 25, 7, 0.5, [errorPct, unknownPct, healthyPct])
+        // Makes donut larger
 
 
-        this._drawDonut(ctx, node, 15, 5, 0.5, [errorPct, unknownPct, healthyPct]); // drawing the baseline status
+        this._drawDonut(ctx, node, 25, 7, 0.5, [errorPct, unknownPct, healthyPct]); // drawing the baseline status
 
 
         var showBaselines = this.controller.getSettings().showBaselines;
@@ -40078,12 +40080,15 @@ var CanvasDrawer = /*#__PURE__*/function () {
       // Start of new code
       var pos = node.position();
       var cX = pos.x;
-      var cY = pos.y;
-      var size = 12;
+      var cY = pos.y; //Changed from const size = 20;
+      // Makes font larger
+
+      var size = 20;
       ctx.beginPath();
       ctx.arc(cX, cY, 12, 0, 2 * Math.PI, false);
-      ctx.fillStyle = 'white';
-      ctx.fill();
+      ctx.fillStyle = 'white'; // Commented out to remove white line obstructing icon
+      //ctx.fill();
+
       ctx.beginPath();
       ctx.arc(cX, cY, 11.5, 0, 2 * Math.PI, false);
       ctx.fillStyle = this.colors.background;
@@ -40134,10 +40139,12 @@ var CanvasDrawer = /*#__PURE__*/function () {
       }
 
       var pos = node.position();
-      var fontSize = 6;
-      var cX = pos.x + this.donutRadius * 1.25;
-      var cY = pos.y + fontSize / 2 - fontSize / 2 * (lines.length - 1);
-      ctx.font = '6px Arial';
+      var fontSize = 6; // Increased donut radius from 1.25 to 1.75
+
+      var cX = pos.x + this.donutRadius * 1.75;
+      var cY = pos.y + fontSize / 2 - fontSize / 2 * (lines.length - 1); // Increased font size from 6px
+
+      ctx.font = '8px Arial';
       ctx.fillStyle = this.colors["default"];
 
       for (var i = 0; i < lines.length; i++) {
@@ -40212,19 +40219,21 @@ var CanvasDrawer = /*#__PURE__*/function () {
         healthyPct = 1.0 - errorPct;
         unknownPct = 0;
       } // drawing the donut
+      // Changed from this._drawDonut(ctx, node, 15, 5, 0.5, [errorPct, unknownPct, healthyPct])
 
 
-      this._drawDonut(ctx, node, 15, 5, 0.5, [errorPct, unknownPct, healthyPct]); // End of new code
+      this._drawDonut(ctx, node, 25, 7, 0.5, [errorPct, unknownPct, healthyPct]); // End of new code
 
 
       var pos = node.position();
       var cX = pos.x;
-      var cY = pos.y;
-      var size = 12;
+      var cY = pos.y; // Increased size from 12
+
+      var size = 20;
       ctx.beginPath();
       ctx.arc(cX, cY, 12, 0, 2 * Math.PI, false);
-      ctx.fillStyle = 'white';
-      ctx.fill();
+      ctx.fillStyle = 'white'; //ctx.fill();
+
       ctx.beginPath();
       ctx.arc(cX, cY, 11.5, 0, 2 * Math.PI, false);
       ctx.fillStyle = this.colors.background;
@@ -40254,7 +40263,7 @@ var CanvasDrawer = /*#__PURE__*/function () {
       }
       */
 
-      ctx.font = '6px Arial';
+      ctx.font = '10px Arial';
       var labelWidth = ctx.measureText(label).width;
       var xPos = pos.x - labelWidth / 2;
       var yPos = pos.y + node.height() * 0.8;
