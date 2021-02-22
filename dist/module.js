@@ -40814,7 +40814,8 @@ var OptionsCtrl = /*#__PURE__*/function () {
     value: function getExternalIconOptions() {
       //return ['default', 'message', 'database', 'http', 'web', 'balancer', 'ldap', 'mainframe', 'smtp', 'ftp'];
       //return ["java", "balancer","database","http","ftp","ldap","mainframe","message","smtp","web","default","mysql","database1","appd_node_class","appd_tier_class","application_mapped_class","aws_logo","cluster_class","database_class","docker_container_class","firewall_class","internet_class","ip_class","java_red_node_class","kubernetes_logo","kubernetes_pod","linux_server_class","router_class","mysql3"]
-      return ['application_generic', 'application_svc', 'aws_logo', 'azure_logo', 'cluster', 'database', 'docker_container', 'firewall', 'ip', 'java', 'k8s_logo', 'k8s_pod', 'plugin', 'redhat_logo', 'router', 'server_generic', 'storage', 'switch', 'virtual_machine', 'vsphere', 'web_plugin', 'web_svc', 'web', 'windows_logo', 'windows_server'];
+      //return ['application_generic', 'application_svc', 'aws_logo', 'azure_logo', 'cluster', 'database', 'docker_container', 'firewall', 'ip', 'java', 'k8s_logo', 'k8s_pod','plugin','redhat_logo', 'router','server_generic','storage','switch','virtual_machine','vsphere','web_plugin','web_svc','web','windows_logo','windows_server'];
+      return ["application_generic", "application_svc", "k8s-cluster", "k8s-deploy", "k8s-ds", "k8s-node", "k8s-ns", "k8s-pod", "k8s-svc", "k8s-volume", "linux", "router", "server_generic", "storage", "switch", "virtual_machine", "vsphere", "web", "web_plugin", "web_svc", "windows_logo"];
     }
   }, {
     key: "addServiceMapping",
